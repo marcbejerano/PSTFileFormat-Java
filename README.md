@@ -1,6 +1,6 @@
 # PSTFileFormat-Java
 
-This is a Java port of the PSTFileFormat project and still a work in progress.
+This is a Java port of the [PSTFileFormat](https://github.com/ROM-Knowledgeware/PSTFileFormat) project and still a work in progress.
 
 PSTFileFormat is an open source library written in C# designed to read and write to Outlook PST files.
 
