@@ -11,12 +11,15 @@
 package com.hindsite.experimental.pstfile.nodedatabase.block;
 
 import com.hindsite.experimental.pstfile.nodedatabase.PSTCRCCalculation;
+import com.hindsite.experimental.pstfile.nodedatabase.datastore.DataBlock;
 import com.hindsite.experimental.pstfile.nodedatabase.datastore.XBlock;
 import com.hindsite.experimental.pstfile.nodedatabase.datastore.XXBlock;
 import com.hindsite.experimental.pstfile.nodedatabase.enums.BCryptMethodName;
 import com.hindsite.experimental.pstfile.nodedatabase.enums.BlockType;
 import com.hindsite.experimental.pstfile.nodedatabase.exceptions.InvalidBlockIDException;
 import com.hindsite.experimental.pstfile.nodedatabase.exceptions.InvalidChecksumException;
+import com.hindsite.experimental.pstfile.nodedatabase.subnodebtree.SubnodeIntermediateBlock;
+import com.hindsite.experimental.pstfile.nodedatabase.subnodebtree.SubnodeLeafBlock;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -37,6 +40,10 @@ public abstract class Block {
 
     public Block(byte[] buffer) {
         blockTrailer = BlockTrailer.ReadFromEndOfBuffer(buffer);
+    }
+    
+    public Block(Block copy) {
+        blockTrailer = new BlockTrailer(copy.blockTrailer);
     }
 
     public abstract void WriteDataBytes(byte[] buffer, int offset);
@@ -124,8 +131,6 @@ public abstract class Block {
         stream.write(blockBytes, 0, blockBytes.length);
     }
 
-    public abstract Block Clone() throws CloneNotSupportedException;
-
     public BlockID getBlockID() {
         return blockTrailer.bid;
     }
@@ -141,4 +146,6 @@ public abstract class Block {
         return GetTotalBlockLength(this.getDataLength());
     }
 
+    @Override
+    public abstract Block clone();
 }

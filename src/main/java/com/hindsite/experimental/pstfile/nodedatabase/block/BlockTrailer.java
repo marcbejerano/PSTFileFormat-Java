@@ -36,6 +36,13 @@ public class BlockTrailer {
         dwCRC = LittleEndianConverter.getUInt32(buffer, offset + 4);
         bid = new BlockID(buffer, offset + 8);
     }
+    
+    public BlockTrailer(BlockTrailer copy) {
+        this.cb = copy.cb;
+        this.wSig = copy.wSig;
+        this.dwCRC = copy.dwCRC;
+        this.bid = new BlockID(copy.bid);
+    }
 
     public void WriteBytes(byte[] buffer, int dataLength, int offset, long fileOffset) {
         wSig = ComputeSignature(fileOffset, bid.getValue());

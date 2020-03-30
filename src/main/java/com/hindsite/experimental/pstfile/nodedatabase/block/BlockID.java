@@ -33,6 +33,10 @@ public final class BlockID {
         setInternal(isInternal);
         setBidIndex(bidIndex);
     }
+    
+    public BlockID(BlockID copy) {
+        this.m_blockID = copy.m_blockID;
+    }
 
     public BlockID(byte[] buffer, int offset) {
         m_blockID = LittleEndianConverter.getUInt64(buffer, offset + 0);
@@ -84,8 +88,8 @@ public final class BlockID {
         m_blockID |= (value << 2);
     }
 
-    public BlockID Clone() {
-        return new BlockID(m_blockID);
+    @Override
+    public BlockID clone() {
+        return new BlockID(this);
     }
-
 }

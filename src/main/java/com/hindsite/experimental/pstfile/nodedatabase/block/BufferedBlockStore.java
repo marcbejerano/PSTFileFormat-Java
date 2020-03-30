@@ -41,7 +41,7 @@ public class BufferedBlockStore {
         m_file = file;
     }
 
-    protected Block GetBlock(BlockID blockID) throws CloneNotSupportedException {
+    protected Block GetBlock(BlockID blockID) {
         return GetBlock(blockID.getValue());
     }
 
@@ -49,13 +49,13 @@ public class BufferedBlockStore {
     /// Will get a block from the buffer,
     /// A cloned copy of the block will be returned
     /// </summary>
-    protected Block GetBlock(long blockID) throws CloneNotSupportedException {
+    protected Block GetBlock(long blockID) {
         if (m_blockBuffer.containsKey(blockID)) {
-            return m_blockBuffer.get(blockID).Clone();
+            return m_blockBuffer.get(blockID).clone();
         } else {
             Block block = m_file.FindBlockByBlockID(blockID);
             m_blockBuffer.put(blockID, block);
-            return block.Clone();
+            return block.clone();
         }
     }
 

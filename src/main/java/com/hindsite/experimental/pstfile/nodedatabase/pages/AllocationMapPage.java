@@ -10,6 +10,7 @@
  */
 package com.hindsite.experimental.pstfile.nodedatabase.pages;
 
+import com.hindsite.experimental.PSTFile;
 import com.hindsite.experimental.pstfile.nodedatabase.enums.PageTypeName;
 
 /**
@@ -36,6 +37,7 @@ public class AllocationMapPage extends Page {
     }
 
     /// <param name="fileOffset">Irrelevant for AMap</param>
+    @Override
     public byte[] GetBytes(long fileOffset) {
         byte[] buffer = new byte[Length];
         System.arraycopy(rgbAMapBits, 0, buffer, 0, rgbAMapBits.length);
@@ -147,17 +149,19 @@ public class AllocationMapPage extends Page {
     }
 
     public void WriteAllocationMapPage(PSTFile file, int allocationMapPageIndex) {
-        long offset = FirstPageOffset + (long) MapppedLength * allocationMapPageIndex;
-        WriteToStream(file.BaseStream, offset);
+        throw new RuntimeException("Not implemented");
+//        long offset = FirstPageOffset + (long) MapppedLength * allocationMapPageIndex;
+//        WriteToStream(file.BaseStream, offset);
     }
 
     public static AllocationMapPage ReadAllocationMapPage(PSTFile file, int allocationMapPageIndex) {
-        // The first AMap of a PST file is always located at absolute file offset 0x4400, and subsequent AMaps appear at intervals of 253,952 bytes thereafter
-        long offset = FirstPageOffset + (long) MapppedLength * allocationMapPageIndex;
-        file.BaseStream.Seek(offset, SeekOrigin.Begin);
-        byte[] buffer = new byte[Length];
-        file.BaseStream.Read(buffer, 0, Length);
-
-        return new AllocationMapPage(buffer);
+        throw new RuntimeException("Not implemented");
+//        // The first AMap of a PST file is always located at absolute file offset 0x4400, and subsequent AMaps appear at intervals of 253,952 bytes thereafter
+//        long offset = FirstPageOffset + (long) MapppedLength * allocationMapPageIndex;
+//        //file.BaseStream.Seek(offset, SeekOrigin.Begin);
+//        byte[] buffer = new byte[Length];
+//        file.BaseStream.Read(buffer, 0, Length);
+//
+//        return new AllocationMapPage(buffer);
     }
 }

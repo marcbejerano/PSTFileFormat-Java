@@ -45,4 +45,31 @@ public enum NodeTypeName {
     public byte getValue() {
         return this.value;
     }
+    
+    static public NodeTypeName valueOf(byte value) {
+        switch (value) {
+            case 0x00: return NID_TYPE_HID;
+            case 0x01: return NID_TYPE_INTERNAL;
+            case 0x02: return NID_TYPE_NORMAL_FOLDER;
+            case 0x03: return NID_TYPE_SEARCH_FOLDER;
+            case 0x04: return NID_TYPE_NORMAL_MESSAGE;
+            case 0x05: return NID_TYPE_ATTACHMENT;
+            case 0x06: return NID_TYPE_SEARCH_UPDATE_QUEUE;
+            case 0x07: return NID_TYPE_SEARCH_CRITERIA_OBJECT;
+            case 0x08: return NID_TYPE_ASSOC_MESSAGE;
+            case 0x0a: return NID_TYPE_CONTENTS_TABLE_INDEX;
+            case 0x0b: return NID_TYPE_RECEIVE_FOLDER_TABLE;
+            case 0x0c: return NID_TYPE_OUTGOING_QUEUE_TABLE;
+            case 0x0d: return NID_TYPE_HIERARCHY_TABLE;
+            case 0x0e: return NID_TYPE_CONTENTS_TABLE;
+            case 0x0f: return NID_TYPE_ASSOC_CONTENTS_TABLE;
+            case 0x10: return NID_TYPE_SEARCH_CONTENTS_TABLE;
+            case 0x11: return NID_TYPE_ATTACHMENT_TABLE;
+            case 0x12: return NID_TYPE_RECIPIENT_TABLE;
+            case 0x13: return NID_TYPE_SEARCH_TABLE_INDEX;
+            case 0x1f: return NID_TYPE_LTP;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
 }
