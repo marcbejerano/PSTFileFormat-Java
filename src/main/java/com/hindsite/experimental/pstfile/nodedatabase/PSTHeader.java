@@ -21,6 +21,10 @@ public class PSTHeader {
 
     public static final int HeaderLength = 564;
 
+    public BlockID AllocateNextBlockID() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public enum PSTVersion {
         //Ansi = 14,
         //Ansi = 15,

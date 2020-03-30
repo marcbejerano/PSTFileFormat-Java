@@ -10,7 +10,10 @@
  */
 package com.hindsite.experimental.pstfile.nodedatabase.block;
 
+import com.hindsite.experimental.PSTFile;
+import com.hindsite.experimental.pstfile.nodedatabase.btree.BlockBTreeEntry;
 import com.hindsite.experimental.pstfile.nodedatabase.datastore.DataBlock;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +41,7 @@ public class BufferedBlockStore {
         m_file = file;
     }
 
-    protected Block GetBlock(BlockID blockID) {
+    protected Block GetBlock(BlockID blockID) throws CloneNotSupportedException {
         return GetBlock(blockID.getValue());
     }
 
@@ -91,7 +94,7 @@ public class BufferedBlockStore {
             throw new Exception("Invalid block length");
         }
 
-        block.setBlockID(m_file.Header.AllocateNextBlockID());
+        block.setBlockID(m_file.getHeader().AllocateNextBlockID());
         block.getBlockID().setInternal(!(block instanceof DataBlock));
         m_blockBuffer.put(block.getBlockID().getValue(), block);
         m_blocksToWrite.add(block.getBlockID().getValue());
@@ -116,12 +119,12 @@ public class BufferedBlockStore {
     /// <summary>
     /// The caller must update its reference to point to the new root
     /// </summary>
-    public void SaveChanges() {
+    public void SaveChanges() throws IOException {
         for (long blockID : m_blocksToWrite) {
             Block block = m_blockBuffer.get(blockID);
             long offset = AllocationHelper.AllocateSpaceForBlock(m_file, block.TotalLength);
-            block.WriteToStream(m_file.BaseStream, offset);
-            m_file.getBlockBTree().InsertBlockEntry(block.BlockID, offset, block.DataLength);
+            block.WriteToStream(m_file.getBaseStream(), offset);
+            m_file.getBlockBTree().InsertBlockEntry(block.getBlockID(), offset, block.getDataLength());
         }
 
         for (long blockID : m_blocksToFree) {
@@ -132,18 +135,17 @@ public class BufferedBlockStore {
                 // we can mark the allocation to be freed and delete the entry,
                 // We should not free the allocation until the BBT is committed.
                 m_file.MarkAllocationToBeFreed(entry.BREF.ib, Block.GetTotalBlockLength(entry.cb));
-                m_file.BlockBTree.DeleteBlockEntry(entry.BREF.bid);
+                m_file.getBlockBTree().DeleteBlockEntry(entry.BREF.bid);
             } else {
-                m_file.BlockBTree.UpdateBlockEntry(entry.BREF.bid, entry.cRef);
+                m_file.getBlockBTree().UpdateBlockEntry(entry.BREF.bid, entry.cRef);
             }
         }
 
-        m_blocksToWrite.Clear();
-        m_blocksToFree.Clear();
+        m_blocksToWrite.clear();
+        m_blocksToFree.clear();
     }
 
     public PSTFile getFile() {
         return m_file;
     }
-}
 }
