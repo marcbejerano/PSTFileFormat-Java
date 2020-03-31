@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
 
 /**
+ * 2.2.2.4
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
 @Data
@@ -27,13 +28,15 @@ import lombok.extern.java.Log;
 @Log
 public final class BlockRef implements IPSTFileReader, IPSTFileWriter {
 
+    public static final int size = 8 + BlockID.size;
+    
     private BlockID bid;
     private long ib;
 
     public BlockRef(InputStream in) throws IOException {
         read(in);
     }
-
+    
     @Override
     public IPSTFileReader read(InputStream in) throws IOException {
         bid = new BlockID(in);

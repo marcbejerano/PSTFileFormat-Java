@@ -33,6 +33,30 @@ public class StreamUtils {
         return buffer;
     }
 
+    public static void write(OutputStream out, byte value) throws IOException {
+        log.finest("write 1 byte");
+        out.write(value);
+    }
+
+    public static byte readByte(InputStream in) throws IOException {
+        return (byte) in.read();
+    }
+
+    public static void write(OutputStream out, short value) throws IOException {
+        byte[] buffer = new byte[2]; // 16 bits
+        ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
+        byteBuffer.putShort(value);
+        log.finest(String.format("write %d bytes", byteBuffer.array().length));
+        out.write(byteBuffer.array());
+    }
+
+    public static short readShort(InputStream in) throws IOException {
+        byte[] buffer = new byte[2]; // 16 bits
+        in.read(buffer);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
+        return byteBuffer.getShort();
+    }
+
     public static void write(OutputStream out, int value) throws IOException {
         byte[] buffer = new byte[4]; // 32 bits
         ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);

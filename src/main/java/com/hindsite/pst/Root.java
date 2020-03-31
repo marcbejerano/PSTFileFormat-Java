@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
 
 /**
+ * 2.2.2.5
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
 @Data
@@ -26,6 +27,8 @@ import lombok.extern.java.Log;
 @Log
 public final class Root implements IPSTFileReader, IPSTFileWriter {
 
+    public static final int size = 4 + (4 * 8) + (2 * BlockRef.size) + 4;
+    
     private long ibFileEOF;
     private long ibAMapLast;
     private long cbAMapFree;
@@ -54,7 +57,6 @@ public final class Root implements IPSTFileReader, IPSTFileWriter {
 
     @Override
     public IPSTFileWriter write(OutputStream out) throws IOException {
-        log.info("write(Root)");
         StreamUtils.write(out, (int) 0);
         StreamUtils.write(out, ibFileEOF);
         StreamUtils.write(out, ibAMapLast);

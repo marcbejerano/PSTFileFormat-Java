@@ -18,12 +18,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 2.2.2.1
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public final class NodeID implements IPSTFileReader, IPSTFileWriter {
+    
+    public static final int size = 4;
 
     public static enum Type {
         NID_TYPE_HID(0x00), // Heap node
