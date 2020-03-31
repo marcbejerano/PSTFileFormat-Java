@@ -10,6 +10,8 @@
  */
 package com.hindsite.pst;
 
+import java.util.Arrays;
+
 /**
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
@@ -114,6 +116,10 @@ public class EncryptionUtils {
         (byte) 237, (byte) 154, (byte) 100, (byte) 63, (byte) 193, (byte) 108, (byte) 249, (byte) 236
     };
 
+    private static final byte[] mpbbR = Arrays.copyOfRange(mpbbCrypt, 0, 256);
+    private static final byte[] mpbbS = Arrays.copyOfRange(mpbbCrypt, 256, 512);
+    private static final byte[] mpbbI = Arrays.copyOfRange(mpbbCrypt, 512, 768);
+
     /**
      * As per the MS-PST standards document v7.2, Section 5.1
      *
@@ -122,12 +128,6 @@ public class EncryptionUtils {
      * @return Encrypted/decrypted data
      */
     public static byte[] permute(byte[] data, boolean encrypt) {
-        final byte[] mpbbR = new byte[256];
-        final byte[] mpbbI = new byte[256];
-
-        System.arraycopy(mpbbCrypt, 0, mpbbR, 0, 256);
-        System.arraycopy(mpbbCrypt, 512, mpbbI, 0, 256);
-
         byte[] pbTable = encrypt ? mpbbR : mpbbI;
         byte[] buffer = new byte[data.length];
 
@@ -139,5 +139,26 @@ public class EncryptionUtils {
         }
 
         return buffer;
+    }
+
+    public static void cyclic(byte[] pb, int cb, short dwKey) {
+        byte b;
+        short w;
+
+        w = (short) (dwKey ^ (dwKey >> 16));
+        while (--cb >= 0) {
+//            b =  * pb;
+//
+//            b = (byte) (b + (byte) w);
+//            b = mpbbR[b];
+//            b = (byte) (b + (byte) (w >> 8));
+//            b = mpbbS[b];
+//            b = (byte) (b - (byte) (w >> 8));
+//            b = mpbbI[b];
+//            b = (byte) (b - (byte) w);
+//             * pb++ = b;
+//
+            w = (short) (w + 1);
+        }
     }
 }
