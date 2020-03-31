@@ -26,10 +26,11 @@ public class HeaderTest {
      */
     @Test
     public void testRead() throws Exception {
-//        FileInputStream in = new FileInputStream(file);
-//        Header header = new Header(in);
-//
-//        assertEquals(EncryptionType.NDB_CRYPT_PERMUTE, header.getBCryptMethod());
+        File file = new File("");
+        FileInputStream in = new FileInputStream(file);
+        Header header = new Header(in);
+
+        assertEquals(EncryptionType.NDB_CRYPT_PERMUTE, header.getBCryptMethod());
     }
 
     /**

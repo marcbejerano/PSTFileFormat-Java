@@ -18,6 +18,6 @@ import java.io.File;
 public class PSTFile {
 
     private File m_file;
-    private PSTHeader m_header;
+    private Header m_header;
 
 }

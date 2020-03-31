@@ -53,8 +53,13 @@ public final class Header implements IPSTFileReader, IPSTFileWriter {
     }
     
     private void trustButVerify() {
-        // CRC ...
-        
+        assert(dwMagic == 0x2142444e);
+        assert(wMagicClient == 0x534d);
+        assert(wVer > 23); // Only Unicode version is supported
+        // CRC header ...
+        assert(bPlatformCreate == (byte) 0x01);
+        assert(bPlatformAccess == (byte) 0x01);
+        // CRC full ...
     }
     
     @Override
