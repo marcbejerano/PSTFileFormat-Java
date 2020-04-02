@@ -17,17 +17,26 @@ import com.hindsite.pst.utils.StreamUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
+ * 2.2.2.7.4.2
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
-public class DListPage implements IPSTFileReader, IPSTFileWriter {
+@Data
+@NoArgsConstructor
+public final class DListPage implements IPSTFileReader, IPSTFileWriter {
 
     private byte bFlags;
     private byte bEntDList;
     private int ulCurrentPage;
     private DListPageEntry[] rgDListPageEnt; // 476 bytes, 119 DListPageEntry
     private PageTrailer pageTrailer;
+    
+    public DListPage(InputStream in) throws IOException {
+        read(in);
+    }
     
     @Override
     public IPSTFileReader read(InputStream in) throws IOException {
@@ -36,10 +45,9 @@ public class DListPage implements IPSTFileReader, IPSTFileWriter {
         bEntDList = (byte) (value >> 16 & 0xFF);
         ulCurrentPage = StreamUtils.readInt(in);
 
-        
-//        rgDListPageEnt = new DListPageEntry[119];
-//        for (int n = 0; n < 119; n++) rgDListPageEnt[n] = new DListPageEntry(in);
-//        StreamUtils.read(in, 12);
+        rgDListPageEnt = new DListPageEntry[119];
+        for (int n = 0; n < 119; n++) rgDListPageEnt[n] = new DListPageEntry(in);
+        StreamUtils.read(in, 12);
 
         pageTrailer = new PageTrailer(in);
         return this;
@@ -50,7 +58,7 @@ public class DListPage implements IPSTFileReader, IPSTFileWriter {
         final int value = ((int) bFlags) << 24 | ((int) bEntDList) << 16;
         StreamUtils.write(out, value);
         StreamUtils.write(out, ulCurrentPage);
-        for (int n = 0; n < 119; n++) rgDListPageEnt[n].write(out);
+        StreamUtils.write(out, rgDListPageEnt);
         final byte[] padding = new byte[12];
         StreamUtils.write(out, padding);
         pageTrailer.write(out);

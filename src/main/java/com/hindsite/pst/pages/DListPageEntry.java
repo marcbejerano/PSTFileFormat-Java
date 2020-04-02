@@ -17,10 +17,15 @@ import com.hindsite.pst.utils.StreamUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
+ * 2.2.2.7.4.1
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
+@Data
+@NoArgsConstructor
 public final class DListPageEntry implements IPSTFileReader, IPSTFileWriter {
 
     public static final int size = 4; // 32 bits

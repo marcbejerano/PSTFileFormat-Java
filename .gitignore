@@ -2,4 +2,6 @@ nb-configuration.xml
 target/
 .envrc
 
-/nbproject/
+nbproject/
+docs/
+

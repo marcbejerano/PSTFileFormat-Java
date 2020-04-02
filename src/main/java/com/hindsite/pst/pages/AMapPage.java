@@ -13,19 +13,32 @@ package com.hindsite.pst.pages;
 
 import com.hindsite.pst.IPSTFileReader;
 import com.hindsite.pst.IPSTFileWriter;
+import com.hindsite.pst.types.PageType;
 import com.hindsite.pst.utils.StreamUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+import lombok.Data;
 
 /**
+ * 2.2.2.7.2
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
+@Data
 public final class AMapPage implements IPSTFileReader, IPSTFileWriter {
 
     public static final int size = 496 + PageTrailer.size;
     private byte[] rgbAMapBits; // 496 bytes
     private PageTrailer pageTrailer;
+    
+    public AMapPage() {
+        rgbAMapBits = new byte[496];
+        Arrays.fill(rgbAMapBits, (byte) 0);
+        pageTrailer = new PageTrailer();
+        pageTrailer.setPType(PageType.AllocationMap);
+        pageTrailer.setPTypeRepeat(PageType.AllocationMap);
+    }
     
     public AMapPage(InputStream in) throws IOException {
         read(in);

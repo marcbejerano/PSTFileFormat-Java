@@ -15,13 +15,13 @@ package com.hindsite.pst.types;
  */
 public enum PageType {
 
-    BBT((byte) 0x80),   // Block BTree page. Block or page signature (section 5.5).
-    NBT((byte) 0x81),   // Node BTree page. Block or page signature (section 5.5).
-    FMap((byte) 0x82),  // Free Map page. 0x0000
-    PMap((byte) 0x83),  // Allocation Page Map page. 0x0000
-    AMAp((byte) 0x84),  // Allocation Map page. 0x0000
-    FPMap((byte) 0x85), // Free Page Map page. 0x0000
-    DL((byte) 0x86);    // Density List page. Block or page signature (section 5.5).
+    BlockBTree((byte) 0x80),        // ptypeBBT - Block BTree page. Block or page signature (section 5.5).
+    NodeBTree((byte) 0x81),         // ptypeNBT - Node BTree page. Block or page signature (section 5.5).
+    FreeMap((byte) 0x82),           // ptypeFMap - Free Map page. 0x0000
+    AllocationPageMap((byte) 0x83), // ptypePMap - Allocation Page Map page. 0x0000
+    AllocationMap((byte) 0x84),     // ptypeAMap - Allocation Map page. 0x0000
+    FreePageMap((byte) 0x85),       // ptypeFPMap - Free Page Map page. 0x0000
+    DensityList((byte) 0x86);       // ptypeDL - Density List page. Block or page signature (section 5.5).
 
     private final byte value;
 
@@ -32,7 +32,7 @@ public enum PageType {
     public byte getValue() {
         return this.value;
     }
-    
+
     public static PageType valueOf(int value) {
         for (PageType t : PageType.values()) {
             if (t.getValue() == value) {

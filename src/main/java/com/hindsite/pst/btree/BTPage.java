@@ -9,54 +9,55 @@
  * by the additional permissions listed below.
  */
 
-package com.hindsite.pst.pages;
+package com.hindsite.pst.btree;
 
 import com.hindsite.pst.IPSTFileReader;
 import com.hindsite.pst.IPSTFileWriter;
-import com.hindsite.pst.types.PageType;
+import com.hindsite.pst.pages.PageTrailer;
 import com.hindsite.pst.utils.StreamUtils;
-import com.hindsite.pst.ndb.BlockID;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
- * 2.2.2.7.1
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
 @Data
-@NoArgsConstructor
-public final class PageTrailer implements IPSTFileReader, IPSTFileWriter {
+public final class BTPage implements IPSTFileReader, IPSTFileWriter {
 
-    public static final int size = 32;
+    public static final int size = 512;
     
-    private PageType pType;
-    private PageType pTypeRepeat;
-    private short wSig;
-    private BlockID bid;
+    private byte[] rgentries; // 488 bytes
+    private byte cEnt;
+    private byte cEntMax;
+    private byte cbEnt;
+    private byte cLevel;
+    private PageTrailer pageTrailer;
     
-    public PageTrailer(InputStream in) throws IOException {
+    public BTPage(InputStream in) throws IOException {
         read(in);
     }
 
     @Override
     public IPSTFileReader read(InputStream in) throws IOException {
-        pType = PageType.valueOf(StreamUtils.readByte(in));
-        pTypeRepeat = PageType.valueOf(StreamUtils.readByte(in));
-        wSig = StreamUtils.readShort(in);
-        bid = new BlockID(in);
+        rgentries = StreamUtils.read(in, 488);
+        cEnt = StreamUtils.readByte(in);
+        cEntMax = StreamUtils.readByte(in);
+        cbEnt = StreamUtils.readByte(in);
+        cLevel = StreamUtils.readByte(in);
+        pageTrailer = new PageTrailer(in);
         return this;
     }
 
     @Override
     public IPSTFileWriter write(OutputStream out) throws IOException {
-        StreamUtils.write(out, pType.getValue());
-        StreamUtils.write(out, pTypeRepeat.getValue());
-        StreamUtils.write(out, wSig);
-        bid.write(out);
+        StreamUtils.write(out, rgentries);
+        StreamUtils.write(out, cEnt);
+        StreamUtils.write(out, cEntMax);
+        StreamUtils.write(out, cbEnt);
+        StreamUtils.write(out, cLevel);
+        pageTrailer.write(out);
         return this;
     }
-    
 }

@@ -11,13 +11,8 @@
 package com.hindsite.pst.ndb;
 
 import com.hindsite.pst.types.AMapValidType;
-import com.hindsite.pst.ndb.Root;
-import com.hindsite.pst.ndb.BlockRef;
-import com.hindsite.pst.ndb.BlockID;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -68,7 +63,7 @@ public class RootTest {
         assertTrue(instance.getBREFBBT().getBid().isInternal());
         assertEquals(1234, instance.getBREFBBT().getBid().getBidIndex());
         assertEquals(6789, instance.getBREFBBT().getIb());
-        assertEquals(AMapValidType.VALID_AMAP2, instance.getFAMapValid());
+        assertEquals(AMapValidType.Valid, instance.getFAMapValid());
     }
 
     /**
@@ -84,7 +79,7 @@ public class RootTest {
         instance.setCbPMapFree(2000);
         instance.setBREFNBT(new BlockRef(new BlockID(true, 1234), 6789));
         instance.setBREFBBT(new BlockRef(new BlockID(true, 1234), 6789));
-        instance.setFAMapValid(AMapValidType.VALID_AMAP2);
+        instance.setFAMapValid(AMapValidType.Valid);
         instance.write(out);
 
         byte[] expected = new byte[]{

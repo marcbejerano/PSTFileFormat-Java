@@ -10,7 +10,6 @@
  */
 package com.hindsite.pst.ndb;
 
-import com.hindsite.pst.ndb.NodeID;
 import com.hindsite.pst.ndb.NodeID.Type;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

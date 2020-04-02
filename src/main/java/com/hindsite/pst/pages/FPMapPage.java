@@ -8,55 +8,52 @@
  * and conditions of version 3 of the GNU General Public License, supplemented
  * by the additional permissions listed below.
  */
-
 package com.hindsite.pst.pages;
 
 import com.hindsite.pst.IPSTFileReader;
 import com.hindsite.pst.IPSTFileWriter;
 import com.hindsite.pst.types.PageType;
 import com.hindsite.pst.utils.StreamUtils;
-import com.hindsite.pst.ndb.BlockID;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
- * 2.2.2.7.1
+ * 2.2.2.7.6
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
 @Data
-@NoArgsConstructor
-public final class PageTrailer implements IPSTFileReader, IPSTFileWriter {
+public class FPMapPage implements IPSTFileReader, IPSTFileWriter {
 
-    public static final int size = 32;
-    
-    private PageType pType;
-    private PageType pTypeRepeat;
-    private short wSig;
-    private BlockID bid;
-    
-    public PageTrailer(InputStream in) throws IOException {
+    public static final int size = 496 + PageTrailer.size;
+    private byte[] rgbAMapBits; // 496 bytes
+    private PageTrailer pageTrailer;
+
+    public FPMapPage() {
+        rgbAMapBits = new byte[496];
+        Arrays.fill(rgbAMapBits, (byte) 0);
+        pageTrailer = new PageTrailer();
+        pageTrailer.setPType(PageType.FreePageMap);
+        pageTrailer.setPTypeRepeat(PageType.FreePageMap);
+    }
+
+    public FPMapPage(InputStream in) throws IOException {
         read(in);
     }
 
     @Override
     public IPSTFileReader read(InputStream in) throws IOException {
-        pType = PageType.valueOf(StreamUtils.readByte(in));
-        pTypeRepeat = PageType.valueOf(StreamUtils.readByte(in));
-        wSig = StreamUtils.readShort(in);
-        bid = new BlockID(in);
+        rgbAMapBits = StreamUtils.read(in, 496);
+        pageTrailer.read(in);
         return this;
     }
 
     @Override
     public IPSTFileWriter write(OutputStream out) throws IOException {
-        StreamUtils.write(out, pType.getValue());
-        StreamUtils.write(out, pTypeRepeat.getValue());
-        StreamUtils.write(out, wSig);
-        bid.write(out);
+        StreamUtils.write(out, rgbAMapBits);
+        pageTrailer.write(out);
         return this;
     }
-    
 }

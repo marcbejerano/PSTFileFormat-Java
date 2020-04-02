@@ -15,10 +15,10 @@ package com.hindsite.pst.types;
  */
 public enum EncryptionType {
 
-    NDB_CRYPT_NONE(0x00), // Data blocks are not encoded.
-    NDB_CRYPT_PERMUTE(0x01), // Encoded with the Permutation algorithm (section 5.1).
-    NDB_CRYPT_CYCLIC(0x02), // Encoded with the Cyclic algorithm (section 5.2).
-    NDB_CRYPT_EDPCRYPTED(0x10); // Encrypted with Windows Information Protection.
+    None(0x00),         // NDB_CRYPT_NONE - Data blocks are not encoded.
+    Permute(0x01),      // NDB_CRYPT_PERMUTE - Encoded with the Permutation algorithm (section 5.1).
+    Cyclic(0x02),       // NDB_CRYPT_CYCLIC - Encoded with the Cyclic algorithm (section 5.2).
+    EDPCrypted(0x10);   // NDB_CRYPT_EDPCRYPTED - Encrypted with Windows Information Protection.
 
     private final int value;
 

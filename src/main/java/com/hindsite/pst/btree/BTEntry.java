@@ -8,14 +8,12 @@
  * and conditions of version 3 of the GNU General Public License, supplemented
  * by the additional permissions listed below.
  */
-
-package com.hindsite.pst.pages;
+package com.hindsite.pst.btree;
 
 import com.hindsite.pst.IPSTFileReader;
 import com.hindsite.pst.IPSTFileWriter;
-import com.hindsite.pst.types.PageType;
+import com.hindsite.pst.ndb.BlockRef;
 import com.hindsite.pst.utils.StreamUtils;
-import com.hindsite.pst.ndb.BlockID;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,40 +21,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 2.2.2.7.1
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
 @Data
 @NoArgsConstructor
-public final class PageTrailer implements IPSTFileReader, IPSTFileWriter {
+public final class BTEntry implements IPSTFileReader, IPSTFileWriter {
 
-    public static final int size = 32;
-    
-    private PageType pType;
-    private PageType pTypeRepeat;
-    private short wSig;
-    private BlockID bid;
-    
-    public PageTrailer(InputStream in) throws IOException {
+    private long btkey;
+    private BlockRef bref;
+
+    public BTEntry(InputStream in) throws IOException {
         read(in);
     }
 
     @Override
     public IPSTFileReader read(InputStream in) throws IOException {
-        pType = PageType.valueOf(StreamUtils.readByte(in));
-        pTypeRepeat = PageType.valueOf(StreamUtils.readByte(in));
-        wSig = StreamUtils.readShort(in);
-        bid = new BlockID(in);
+        btkey = StreamUtils.readLong(in);
+        bref = new BlockRef(in);
         return this;
     }
 
     @Override
     public IPSTFileWriter write(OutputStream out) throws IOException {
-        StreamUtils.write(out, pType.getValue());
-        StreamUtils.write(out, pTypeRepeat.getValue());
-        StreamUtils.write(out, wSig);
-        bid.write(out);
+        StreamUtils.write(out, btkey);
+        bref.write(out);
         return this;
     }
-    
 }

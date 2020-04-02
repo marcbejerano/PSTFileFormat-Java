@@ -15,9 +15,10 @@ package com.hindsite.pst.types;
  */
 public enum AMapValidType {
 
-    INVALID_AMAP(0x00), // One or more AMaps in the PST are INVALID
-    VALID_AMAP1(0x01), // Deprecated. Implementations SHOULD NOT use this value. The AMaps are VALID
-    VALID_AMAP2(0x02); // The AMaps are VALID. 
+    Invalid(0x00), // INVALID_AMAP - One or more AMaps in the PST are INVALID
+    @Deprecated
+    Valid_AllocationMap1(0x01), // VALID_AMAP1 - Deprecated. Implementations SHOULD NOT use this value. The AMaps are VALID
+    Valid(0x02); // VALID_AMAP2 - The AMaps are VALID. 
 
     private final int value;
 
