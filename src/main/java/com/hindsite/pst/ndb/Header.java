@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.zip.CRC32;
 import lombok.Data;
+import lombok.extern.java.Log;
 
 /**
  * 2.2.2.6
@@ -31,6 +32,7 @@ import lombok.Data;
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
 @Data
+@Log
 public final class Header implements IPSTFileReader, IPSTFileWriter {
 
     public static final int size = 564;
@@ -72,11 +74,18 @@ public final class Header implements IPSTFileReader, IPSTFileWriter {
             assert (wVerClient == 19);
             // dwCRCPartial (4 bytes): The 32-bit cyclic redundancy check (CRC) value of the 471 bytes of
             // data starting from wMagicClient (0ffset 0x0008)
-            int crc = EncryptionUtils.computeCRC(0, Arrays.copyOfRange(rawData, 8, 479));
+            CRC32 crc32 = new CRC32();
+            crc32.update(Arrays.copyOfRange(rawData, 8, 8 + 471));
+            int crc = EncryptionUtils.computeCRC(0, Arrays.copyOfRange(rawData, 8, 8 + 471));
+            log.info(String.format("crc=0x%04x, crc32=0x%04x, dwCRCPartial=0x%04x", crc, crc32.getValue(), dwCRCPartial));
             //assert (dwCRCPartial == crc);
             assert (bPlatformCreate == (byte) 0x01);
             assert (bPlatformAccess == (byte) 0x01);
-            // CRC full?
+            // dwCRCFull (4 bytes): The 32-bit CRC value of the 516 bytes of data starting from wMagicClient to bidNextB, inclusive.
+            crc32.reset();
+            crc32.update(Arrays.copyOfRange(rawData, 8, 8 + 516));
+            crc = EncryptionUtils.computeCRC(0, Arrays.copyOfRange(rawData, 8, 8 + 516));
+            log.info(String.format("crc=0x%04x, crc32=0x%04x, dwCRCFull=0x%04x", crc, crc32.getValue(), dwCRCFull));
         } catch (AssertionError e) {
             throw new RuntimeException("Invalid header");
         }
@@ -114,8 +123,8 @@ public final class Header implements IPSTFileReader, IPSTFileWriter {
         StreamUtils.readShort(bin); // rgbReserved
         bidNextB = new BlockID(bin);
         dwCRCFull = StreamUtils.readInt(bin);
-        StreamUtils.readInt(bin);
-        StreamUtils.read(bin, 32);
+        StreamUtils.readInt(bin); // rgbReserved2, bReserved
+        StreamUtils.read(bin, 32); // rgbReserved3
         return this;
     }
 
@@ -143,7 +152,7 @@ public final class Header implements IPSTFileReader, IPSTFileWriter {
         bidNextB.write(bout);
         StreamUtils.write(bout, dwCRCFull);
         StreamUtils.write(bout, (int) 0); // rgbReserved2, bReserved
-        StreamUtils.write(bout, new byte[32]);
+        StreamUtils.write(bout, new byte[32]); // rgbReserved3
 
         StreamUtils.write(out, bout.toByteArray());
         return this;

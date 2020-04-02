@@ -31,7 +31,12 @@ public class HeaderTest {
         FileInputStream in = new FileInputStream(file);
         Header header = new Header(in);
 
-        assertEquals(EncryptionType.NDB_CRYPT_PERMUTE, header.getBCryptMethod());
+        assertEquals(0x4e444221, header.getDwMagic());
+        assertEquals(0x4d53, header.getWMagicClient());
+        assertEquals(23, header.getWVer());
+        assertEquals(19, header.getWVerClient());
+        
+        System.out.println(header.toString());
     }
 
     /**
