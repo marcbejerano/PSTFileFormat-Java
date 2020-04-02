@@ -13,7 +13,7 @@ package com.hindsite.pst.pages;
 
 import com.hindsite.pst.IPSTFileReader;
 import com.hindsite.pst.IPSTFileWriter;
-import com.hindsite.pst.StreamUtils;
+import com.hindsite.pst.utils.StreamUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

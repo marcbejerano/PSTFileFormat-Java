@@ -10,11 +10,11 @@
  */
 package com.hindsite.pst.ndb;
 
-import com.hindsite.pst.EncryptionType;
-import com.hindsite.pst.EncryptionUtils;
+import com.hindsite.pst.types.EncryptionType;
+import com.hindsite.pst.utils.EncryptionUtils;
 import com.hindsite.pst.IPSTFileReader;
 import com.hindsite.pst.IPSTFileWriter;
-import com.hindsite.pst.StreamUtils;
+import com.hindsite.pst.utils.StreamUtils;
 import com.hindsite.pst.ndb.BlockID;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

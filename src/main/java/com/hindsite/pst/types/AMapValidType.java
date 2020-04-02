@@ -8,21 +8,20 @@
  * and conditions of version 3 of the GNU General Public License, supplemented
  * by the additional permissions listed below.
  */
-package com.hindsite.pst;
+package com.hindsite.pst.types;
 
 /**
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
-public enum EncryptionType {
+public enum AMapValidType {
 
-    NDB_CRYPT_NONE(0x00), // Data blocks are not encoded.
-    NDB_CRYPT_PERMUTE(0x01), // Encoded with the Permutation algorithm (section 5.1).
-    NDB_CRYPT_CYCLIC(0x02), // Encoded with the Cyclic algorithm (section 5.2).
-    NDB_CRYPT_EDPCRYPTED(0x10); // Encrypted with Windows Information Protection.
+    INVALID_AMAP(0x00), // One or more AMaps in the PST are INVALID
+    VALID_AMAP1(0x01), // Deprecated. Implementations SHOULD NOT use this value. The AMaps are VALID
+    VALID_AMAP2(0x02); // The AMaps are VALID. 
 
     private final int value;
 
-    private EncryptionType(int value) {
+    private AMapValidType(int value) {
         this.value = value;
     }
 
@@ -30,13 +29,13 @@ public enum EncryptionType {
         return this.value;
     }
 
-    public static EncryptionType valueOf(int value) {
-        for (EncryptionType t : EncryptionType.values()) {
+    public static AMapValidType valueOf(int value) {
+        for (AMapValidType t : AMapValidType.values()) {
             if (t.getValue() == value) {
                 return t;
             }
         }
-        throw new EnumConstantNotPresentException(EncryptionType.class, "Unknown value: " + Integer.toHexString(value));
+        throw new EnumConstantNotPresentException(AMapValidType.class, "Unknown value: " + Integer.toHexString(value));
     }
 
 }

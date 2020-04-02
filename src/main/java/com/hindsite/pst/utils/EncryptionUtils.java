@@ -8,7 +8,7 @@
  * and conditions of version 3 of the GNU General Public License, supplemented
  * by the additional permissions listed below.
  */
-package com.hindsite.pst;
+package com.hindsite.pst.utils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

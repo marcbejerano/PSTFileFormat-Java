@@ -13,7 +13,7 @@ package com.hindsite.pst.pages;
 
 import com.hindsite.pst.IPSTFileReader;
 import com.hindsite.pst.IPSTFileWriter;
-import com.hindsite.pst.StreamUtils;
+import com.hindsite.pst.utils.StreamUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,7 +26,7 @@ public class DListPage implements IPSTFileReader, IPSTFileWriter {
     private byte bFlags;
     private byte bEntDList;
     private int ulCurrentPage;
-    private DListPageEntry[] rgDListPageEnt; // 476 bytes
+    private DListPageEntry[] rgDListPageEnt; // 476 bytes, 119 DListPageEntry
     private PageTrailer pageTrailer;
     
     @Override

@@ -10,7 +10,7 @@
  */
 package com.hindsite.pst.ndb;
 
-import com.hindsite.pst.AMapValidType;
+import com.hindsite.pst.types.AMapValidType;
 import com.hindsite.pst.ndb.Root;
 import com.hindsite.pst.ndb.BlockRef;
 import com.hindsite.pst.ndb.BlockID;

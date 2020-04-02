@@ -10,7 +10,6 @@
  */
 package com.hindsite.pst.ndb;
 
-import com.hindsite.pst.EncryptionType;
 import java.io.File;
 import java.io.FileInputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -13,8 +13,8 @@ package com.hindsite.pst.pages;
 
 import com.hindsite.pst.IPSTFileReader;
 import com.hindsite.pst.IPSTFileWriter;
-import com.hindsite.pst.PageType;
-import com.hindsite.pst.StreamUtils;
+import com.hindsite.pst.types.PageType;
+import com.hindsite.pst.utils.StreamUtils;
 import com.hindsite.pst.ndb.BlockID;
 import java.io.IOException;
 import java.io.InputStream;
