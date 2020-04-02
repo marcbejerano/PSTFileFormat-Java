@@ -28,6 +28,11 @@ public class StreamUtils {
             writer.write(out);
         }
     }
+    
+    //public static <T extends IPSTFileReader> T[] readObjects(InputStream in, int count, Class<T> clzz) {
+    //    T[] nodes = clzz.new T[count];
+    //    NodeID[] nodes = read(in);
+    //}
 
     public static void write(OutputStream out, byte[] array) throws IOException {
         out.write(array);

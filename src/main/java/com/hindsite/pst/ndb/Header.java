@@ -51,8 +51,8 @@ public final class Header implements IPSTFileReader, IPSTFileWriter {
     private NodeID[] rgnid; // 32 NodeID's
     private Root root;
     private int dwAlign;
-    private byte[] rgbfm; // 128 bytes
-    private byte[] rgbfp; // 128 bytes
+    private byte[] rgbfm; // 128 bytes - no longer used, must be FF
+    private byte[] rgbfp; // 128 bytes - no longer used, must be FF
     private byte bSentinel;
     private EncryptionType bCryptMethod;
     private short rgbReserved;
