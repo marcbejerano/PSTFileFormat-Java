@@ -10,6 +10,7 @@
  */
 package com.hindsite.pst;
 
+import com.hindsite.pst.ndb.Header;
 import java.io.File;
 
 /**

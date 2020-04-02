@@ -8,8 +8,9 @@
  * and conditions of version 3 of the GNU General Public License, supplemented
  * by the additional permissions listed below.
  */
-package com.hindsite.pst;
+package com.hindsite.pst.ndb;
 
+import com.hindsite.pst.EncryptionType;
 import java.io.File;
 import java.io.FileInputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +27,7 @@ public class HeaderTest {
      */
     @Test
     public void testRead() throws Exception {
-        File file = new File("");
+        File file = new File("/home/marcb/Projects/backup1.pst");
         FileInputStream in = new FileInputStream(file);
         Header header = new Header(in);
 

@@ -9,8 +9,13 @@
  * by the additional permissions listed below.
  */
 
-package com.hindsite.pst;
+package com.hindsite.pst.ndb;
 
+import com.hindsite.pst.AMapValidType;
+import com.hindsite.pst.IPSTFileReader;
+import com.hindsite.pst.IPSTFileWriter;
+import com.hindsite.pst.StreamUtils;
+import com.hindsite.pst.ndb.BlockRef;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

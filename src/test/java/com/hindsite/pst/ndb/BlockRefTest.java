@@ -8,8 +8,10 @@
  * and conditions of version 3 of the GNU General Public License, supplemented
  * by the additional permissions listed below.
  */
-package com.hindsite.pst;
+package com.hindsite.pst.ndb;
 
+import com.hindsite.pst.ndb.BlockRef;
+import com.hindsite.pst.ndb.BlockID;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

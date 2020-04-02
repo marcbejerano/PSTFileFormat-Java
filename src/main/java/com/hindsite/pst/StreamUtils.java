@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import lombok.extern.java.Log;
 
 /**
@@ -21,12 +22,17 @@ import lombok.extern.java.Log;
  */
 @Log
 public class StreamUtils {
-    
+
+    public static <T extends IPSTFileWriter> void write(OutputStream out, T[] objs) throws IOException {
+        for (T writer : objs) {
+            writer.write(out);
+        }
+    }
+
     public static void write(OutputStream out, byte[] array) throws IOException {
-        log.finest(String.format("write %d bytes", array.length));
         out.write(array);
     }
-    
+
     public static byte[] read(InputStream in, int count) throws IOException {
         byte[] buffer = new byte[count];
         in.read(buffer);
@@ -34,7 +40,6 @@ public class StreamUtils {
     }
 
     public static void write(OutputStream out, byte value) throws IOException {
-        log.finest("write 1 byte");
         out.write(value);
     }
 
@@ -46,14 +51,15 @@ public class StreamUtils {
         byte[] buffer = new byte[2]; // 16 bits
         ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
         byteBuffer.putShort(value);
-        log.finest(String.format("write %d bytes", byteBuffer.array().length));
+        byteBuffer.order(ByteOrder.BIG_ENDIAN);
         out.write(byteBuffer.array());
     }
-
+    
     public static short readShort(InputStream in) throws IOException {
         byte[] buffer = new byte[2]; // 16 bits
         in.read(buffer);
         ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         return byteBuffer.getShort();
     }
 
@@ -61,7 +67,7 @@ public class StreamUtils {
         byte[] buffer = new byte[4]; // 32 bits
         ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
         byteBuffer.putInt(value);
-        log.finest(String.format("write %d bytes", byteBuffer.array().length));
+        byteBuffer.order(ByteOrder.BIG_ENDIAN);
         out.write(byteBuffer.array());
     }
 
@@ -69,6 +75,7 @@ public class StreamUtils {
         byte[] buffer = new byte[4]; // 32 bits
         in.read(buffer);
         ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         return byteBuffer.getInt();
     }
 
@@ -76,7 +83,7 @@ public class StreamUtils {
         byte[] buffer = new byte[8]; // 64 bits
         ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
         byteBuffer.putLong(value);
-        log.finest(String.format("write %d bytes", byteBuffer.array().length));
+        byteBuffer.order(ByteOrder.BIG_ENDIAN);
         out.write(byteBuffer.array());
     }
 
@@ -84,6 +91,7 @@ public class StreamUtils {
         byte[] buffer = new byte[8]; // 64 bits
         in.read(buffer);
         ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         return byteBuffer.getLong();
     }
 }

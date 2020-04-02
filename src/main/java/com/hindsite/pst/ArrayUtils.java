@@ -10,6 +10,8 @@
  */
 package com.hindsite.pst;
 
+import java.util.Arrays;
+
 /**
  * @author Marc Bejerano <marcbejerano@gmail.com>
  */
@@ -26,6 +28,26 @@ public class ArrayUtils {
             System.out.print(String.format("%02x", b[n]));
         }
         System.out.println("");
+    }
 
+    public static void dumpArray(byte[] a, int w) {
+        int wdelta = w;
+        System.out.println(String.format("Dumping %d bytes", a.length));
+        char[] line = new char[5 + w * 3];
+        Arrays.fill(line, '-');
+        System.out.println(new String(line));
+        System.out.print("0000: ");
+        for (int i = 0; i < a.length; ++i) {
+            System.out.print(String.format("%02x", a[i] & 0xFF));
+            if (wdelta > 0) {
+                System.out.print(" ");
+            }
+            if (--wdelta == 0) {
+                System.out.println();
+                System.out.print(String.format("%04x: ", i + 1));
+                wdelta = w;
+            }
+        }
+        System.out.println();
     }
 }

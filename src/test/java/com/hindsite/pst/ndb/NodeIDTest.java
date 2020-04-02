@@ -8,48 +8,57 @@
  * and conditions of version 3 of the GNU General Public License, supplemented
  * by the additional permissions listed below.
  */
-package com.hindsite.pst;
+package com.hindsite.pst.ndb;
 
+import com.hindsite.pst.ndb.NodeID;
+import com.hindsite.pst.ndb.NodeID.Type;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  *
  * @author marcb
  */
-public class BlockIDTest {
+public class NodeIDTest {
     
-    public BlockIDTest() {
+    public NodeIDTest() {
     }
 
+    @BeforeEach
+    public void setUp() {
+    }
+    
     /**
-     * Test of read method, of class BlockID.
+     * Test of write method, of class NodeID.
+     * @throws java.lang.Exception
      */
     @Test
     public void testWrite() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        BlockID instance = new BlockID(true, 1234);
+        NodeID instance = new NodeID(Type.NID_TYPE_NORMAL_FOLDER, 1234);
         instance.write(out);
 
-        byte[] expected = new byte[]{ (byte) 0x40, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x04, (byte) 0xd2 };
+        byte[] expected = new byte[]{ (byte) 0x10, (byte) 0x00, (byte) 0x04, (byte) 0xd2 };
         byte[] actual = out.toByteArray();
         
         assertArrayEquals(expected, actual);
     }
 
     /**
-     * Test of write method, of class BlockID.
+     * Test of read method, of class NodeID.
+     * @throws java.lang.Exception
      */
     @Test
     public void testRead() throws Exception {
-        byte[] expected = new byte[]{ (byte) 0x40, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x04, (byte) 0xd2 };
+        byte[] expected = new byte[]{ (byte) 0x10, (byte) 0x00, (byte) 0x04, (byte) 0xd2 };
         ByteArrayInputStream in = new ByteArrayInputStream(expected);
-        BlockID instance = new BlockID(in);
+        NodeID instance = new NodeID(in);
 
-        assertTrue(instance.isInternal());
-        assertEquals(1234, instance.getBidIndex());
+        assertEquals(Type.NID_TYPE_NORMAL_FOLDER, instance.getNidType());        
+        assertEquals(1234, instance.getNidIndex());
     }
-
+    
 }

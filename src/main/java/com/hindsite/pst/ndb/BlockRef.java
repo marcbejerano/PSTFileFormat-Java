@@ -8,8 +8,12 @@
  * and conditions of version 3 of the GNU General Public License, supplemented
  * by the additional permissions listed below.
  */
-package com.hindsite.pst;
+package com.hindsite.pst.ndb;
 
+import com.hindsite.pst.IPSTFileReader;
+import com.hindsite.pst.IPSTFileWriter;
+import com.hindsite.pst.StreamUtils;
+import com.hindsite.pst.ndb.BlockID;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
